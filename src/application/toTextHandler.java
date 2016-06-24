@@ -33,7 +33,7 @@ public class toTextHandler{
             // Use a post method.
             conn.setRequestMethod("POST");
             conn.setRequestProperty ("Authorization", "Basic ZGRhOWFhZTUtOGNiMy00NDBkLTk5MTUtNjk5ZTU4Mjg3N2RlOnNBS3pZa2FTNGFPeQ==");
-            conn.setRequestProperty("Content-Type", "audio/flac");
+            conn.setRequestProperty("Content-Type", "audio/wav");
             conn.setRequestProperty("Transfer-Encoding", "chunked");
             
             /*Write the audio on bufferI/O*/
