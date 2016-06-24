@@ -7,10 +7,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.core.MatOfPoint;
+import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgcodecs.Imgcodecs;
@@ -124,11 +124,11 @@ public class FXController {
 		// this is where the magic stuff happens
 		// all the 3d projections and detections happen in this function
 		// init
-		//List<MatOfPoint> contours = new ArrayList<>();
-		Point a = new Point(100,50);
-		Point b = new Point(700,574);
-		Scalar c = new Scalar(0,60,255);
-		
+		List<MatOfPoint> contours = new ArrayList<>();
+		Point a = new Point(100, 50);
+		Point b = new Point(700, 574);
+		Scalar c = new Scalar(0, 60, 255);
+
 		Imgproc.cvtColor(frame, frame, Imgproc.COLOR_BGR2GRAY);
 		Imgproc.Canny(frame, frame, (double) 64, (double) 150);
 
