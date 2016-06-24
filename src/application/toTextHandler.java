@@ -68,7 +68,7 @@ public class toTextHandler extends FXController {
                 sb.append(str + System.lineSeparator());
             }
             inStream.close();
-            return sb.toString();
+            return sb.toString().toUpperCase();
         }catch (IOException ioex){
             System.out.println("From (ServerResponse): " + ioex);
         }

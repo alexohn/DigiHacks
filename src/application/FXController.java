@@ -109,19 +109,19 @@ public class FXController {
 	
 	public void parseReturnedJSONString(String json) {
 		String shape = "";
-		if (json.contains("triangle")) {
+		if (json.contains("TRIANGLE") ) {
 			shape = "Triangle";
 			flag = 3;
 		}
-		else if (json.contains("square")) {
+		else if (json.contains("SQUARE")) {
 			shape = "Square";
 			flag = 4;
 		}
-		else if (json.contains("pentagon")) {
+		else if (json.contains("PENTAGON")) {
 			shape = "Pentagon";
 			flag = 5;
 		}
-		else if (json.contains("hexagon")) {
+		else if (json.contains("HEXAGON")) {
 			shape = "Hexagon";
 			flag = 6;
 		}
