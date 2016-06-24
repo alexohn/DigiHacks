@@ -38,7 +38,6 @@ public class FXController {
 	// a flag to change the button behavior
 	private boolean cameraActive = false;
 	private int flag = 0;
-	
 	private final JavaSoundRecorder recorder = new JavaSoundRecorder();
 
 	@FXML
@@ -151,11 +150,12 @@ public class FXController {
 		Point b = new Point(700, 574);
 		Scalar c = new Scalar(0, 60, 255);
 
-		Imgproc.cvtColor(frame, frame, Imgproc.COLOR_BGR2GRAY);
-		Imgproc.Canny(frame, frame, (double) 64, (double) 150);
+		Mat manipulatedframe = frame.clone();
+		Imgproc.cvtColor(frame, manipulatedframe, Imgproc.COLOR_BGR2GRAY);
+		Imgproc.Canny(manipulatedframe, manipulatedframe, (double) 64, (double) 150);
 
 		// approximate contours to polygons
-		Imgproc.findContours(frame, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_NONE);
+		Imgproc.findContours(manipulatedframe, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_NONE);
 		// iterate through each contour
 		MatOfPoint2f approxCurve = new MatOfPoint2f();
 		for (int i = 0; i < contours.size(); i++) {
@@ -170,7 +170,7 @@ public class FXController {
 				MatOfPoint points = new MatOfPoint(approxCurve.toArray());
 
 				// Rectangle Checks - Points, area, convexity
-				if (points.total() == flag && Math.abs(Imgproc.contourArea(points)) > 1000
+				if (points.total() == 6 && Math.abs(Imgproc.contourArea(points)) > 150
 						&& Imgproc.isContourConvex(points)) {
 					double cos = 0;
 					double mcos = 0;
@@ -190,8 +190,9 @@ public class FXController {
 						if (Math.abs(rect.height - rect.width) < 100) {
 							// draw enclosing rectangle
 							// TODO Change back to picori
-							//Imgproc.rectangle(frame, rect.tl(), rect.br(), new Scalar(255, 0, 0), 1, 8, 0);
-							Imgproc.drawContours(frame, contours, i, new Scalar(255, 0, 0));
+							// Imgproc.rectangle(frame, rect.tl(), rect.br(),
+							// new Scalar(255, 0, 0), 1, 8, 0);
+							Imgproc.drawContours(frame, contours, i, new Scalar(255, 0, 255, 133), -1);
 
 						}
 
@@ -222,27 +223,27 @@ public class FXController {
 		// buffer
 		return new Image(new ByteArrayInputStream(buffer.toArray()));
 	}
-	
+
 	@FXML
 	protected void startRecording(ActionEvent event) {
-      Thread recordThread = new Thread(new Runnable() {
-      public void run() {
-		Thread stopper = new Thread(new Runnable() {
-		    public void run() {
-		        try {
-		            Thread.sleep(5000);
-		        } catch (InterruptedException ex) {
-		            ex.printStackTrace();
-		        }
-		        recorder.finish();
-		    }
-		});
+		Thread recordThread = new Thread(new Runnable() {
+			public void run() {
+				Thread stopper = new Thread(new Runnable() {
+					public void run() {
+						try {
+							Thread.sleep(5000);
+						} catch (InterruptedException ex) {
+							ex.printStackTrace();
+						}
+						recorder.finish();
+					}
+				});
 
-		stopper.start();
-        recorder.start();
-      }
-      });
-      recordThread.start();
+				stopper.start();
+				recorder.start();
+			}
+		});
+		recordThread.start();
 	}
 
 }
