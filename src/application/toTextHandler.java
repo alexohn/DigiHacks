@@ -9,9 +9,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class toTextHandler{
+import javax.xml.parsers.ParserConfigurationException;
+
+public class toTextHandler extends FXController {
 	@SuppressWarnings("deprecation")
-	public static void sendPOST(String FilePath){
+	public static String sendPOST(String FilePath){
 		String URLPath = "https://stream.watsonplatform.net/speech-to-text/api/v1/recognize?continuous=true";
 //		String FilePath = "/Users/Alan/Desktop/MakeMoveDestroy-flac.flac";
         HttpURLConnection conn = null;
@@ -59,13 +61,19 @@ public class toTextHandler{
         try {
             inStream = new DataInputStream ( conn.getInputStream() );
             String str;
-            while (( str = inStream.readLine()) != null){
+            StringBuilder sb = new StringBuilder();
+            while (( str = inStream.readLine()) != null) {
                 System.out.println("Server response is: " + str);
                 //System.out.println("");
+                sb.append(str + System.lineSeparator());
             }
             inStream.close();
+            return sb.toString();
         }catch (IOException ioex){
             System.out.println("From (ServerResponse): " + ioex);
         }
+        
+        return "";
   }
+	
 }

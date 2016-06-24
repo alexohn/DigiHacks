@@ -37,7 +37,7 @@ public class FXController {
 	private VideoCapture capture = new VideoCapture();
 	// a flag to change the button behavior
 	private boolean cameraActive = false;
-	private int flag = 0;
+	protected int flag = 0;
 	private final JavaSoundRecorder recorder = new JavaSoundRecorder();
 
 	@FXML
@@ -107,6 +107,30 @@ public class FXController {
 		
 	}
 	
+	public void parseReturnedJSONString(String json) {
+		String shape = "";
+		if (json.contains("triangle")) {
+			shape = "Triangle";
+			flag = 3;
+		}
+		else if (json.contains("square")) {
+			shape = "Square";
+			flag = 4;
+		}
+		else if (json.contains("pentagon")) {
+			shape = "Pentagon";
+			flag = 5;
+		}
+		else if (json.contains("hexagon")) {
+			shape = "Hexagon";
+			flag = 6;
+		}
+		else {
+			flag = 0;
+		}
+		System.out.println("flag is " + flag);
+	}
+	
 	/**
 	 * Get a frame from the opened video stream (if any)
 	 * 
@@ -170,7 +194,7 @@ public class FXController {
 				MatOfPoint points = new MatOfPoint(approxCurve.toArray());
 
 				// Rectangle Checks - Points, area, convexity
-				if (points.total() == 6 && Math.abs(Imgproc.contourArea(points)) > 150
+				if (points.total() == flag && Math.abs(Imgproc.contourArea(points)) > 150
 						&& Imgproc.isContourConvex(points)) {
 					double cos = 0;
 					double mcos = 0;
@@ -235,7 +259,8 @@ public class FXController {
 						} catch (InterruptedException ex) {
 							ex.printStackTrace();
 						}
-						recorder.finish();
+						String json = recorder.finish();
+						parseReturnedJSONString(json);
 					}
 				});
 
