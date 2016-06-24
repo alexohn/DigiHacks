@@ -101,7 +101,7 @@ public class FXController {
 					Imgproc.cvtColor(frame, frame, Imgproc.COLOR_BGR2GRAY);
 					// convert the Mat object (OpenCV) to Image (JavaFX)
 
-					frame = TransformImage(frame);
+					frame = ProcessImage(frame);
 					imageToShow = mat2Image(frame);
 				}
 
@@ -114,7 +114,7 @@ public class FXController {
 		return imageToShow;
 	}
 
-	private Mat TransformImage(Mat frame) {
+	private Mat ProcessImage(Mat frame) {
 		// this is where the magic stuff happens
 		// all the 3d projections and detections happen in this function
 		return frame;
