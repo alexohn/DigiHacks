@@ -123,7 +123,7 @@ public class FXController {
 		// init
 		List<MatOfPoint> contours = new ArrayList<>();
 		Imgproc.cvtColor(frame, frame, Imgproc.COLOR_BGR2GRAY);
-		Imgproc.Canny(frame, frame, (double) 0, (double) 50);
+		Imgproc.Canny(frame, frame, (double) 0, (double) 250);
 		return frame;
 	}
 
