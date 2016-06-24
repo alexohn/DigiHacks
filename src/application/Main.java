@@ -1,5 +1,7 @@
 package application;
 
+import java.io.IOException;
+
 import org.opencv.core.Core;
 
 import javafx.application.Application;
@@ -15,7 +17,7 @@ public class Main extends Application {
 			// load the FXML resource
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("FirstJFX.fxml"));
 			// store the root element so that the controllers can use it
-			BorderPane rootElement = (BorderPane) loader.load();
+			BorderPane rootElement = (BorderPane) extracted(loader);
 			// create and style a scene
 			Scene scene = new Scene(rootElement, 800, 600);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -25,6 +27,10 @@ public class Main extends Application {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private Object extracted(FXMLLoader loader) throws IOException {
+		return loader.load();
 	}
 
 	public static void main(String[] args) {
