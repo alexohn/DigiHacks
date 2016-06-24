@@ -154,7 +154,7 @@ public class FXController {
 				MatOfPoint points = new MatOfPoint(approxCurve.toArray());
 
 				// Rectangle Checks - Points, area, convexity
-				if (points.total() == 4 && Math.abs(Imgproc.contourArea(points)) > 1000
+				if (points.total() == 3 && Math.abs(Imgproc.contourArea(points)) > 1000
 						&& Imgproc.isContourConvex(points)) {
 					double cos = 0;
 					double mcos = 0;
@@ -174,7 +174,8 @@ public class FXController {
 						if (Math.abs(rect.height - rect.width) < 100) {
 							// draw enclosing rectangle
 							// TODO Change back to picori
-							Imgproc.rectangle(frame, rect.tl(), rect.br(), new Scalar(255, 0, 0), 1, 8, 0);
+							//Imgproc.rectangle(frame, rect.tl(), rect.br(), new Scalar(255, 0, 0), 1, 8, 0);
+							Imgproc.drawContours(frame, contours, i, new Scalar(255, 0, 0));
 
 						}
 
