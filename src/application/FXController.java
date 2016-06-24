@@ -154,7 +154,7 @@ public class FXController {
 				MatOfPoint points = new MatOfPoint(approxCurve.toArray());
 
 				// Rectangle Checks - Points, area, convexity
-				if (points.total() == 3 && Math.abs(Imgproc.contourArea(points)) > 1000
+				if (points.total() == 5 && Math.abs(Imgproc.contourArea(points)) > 1000
 						&& Imgproc.isContourConvex(points)) {
 					double cos = 0;
 					double mcos = 0;
