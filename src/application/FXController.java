@@ -28,6 +28,8 @@ public class FXController {
 	@FXML
 	private Button start_btn;
 	@FXML
+	private Button record_start_btn;
+	@FXML
 	private ImageView currentFrame;
 	// a timer for acquiring the video stream
 	private ScheduledExecutorService timer;
@@ -35,6 +37,9 @@ public class FXController {
 	private VideoCapture capture = new VideoCapture();
 	// a flag to change the button behavior
 	private boolean cameraActive = false;
+	
+	private final JavaSoundRecorder recorder = new JavaSoundRecorder();
+
 
 	@FXML
 	protected void startCamera(ActionEvent event) {
@@ -200,4 +205,27 @@ public class FXController {
 		// buffer
 		return new Image(new ByteArrayInputStream(buffer.toArray()));
 	}
+	
+	@FXML
+	protected void startRecording(ActionEvent event) {
+      Thread recordThread = new Thread(new Runnable() {
+      public void run() {
+		Thread stopper = new Thread(new Runnable() {
+		    public void run() {
+		        try {
+		            Thread.sleep(5000);
+		        } catch (InterruptedException ex) {
+		            ex.printStackTrace();
+		        }
+		        recorder.finish();
+		    }
+		});
+
+		stopper.start();
+        recorder.start();
+      }
+      });
+      recordThread.start();
+	}
+
 }

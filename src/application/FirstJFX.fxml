@@ -17,6 +17,13 @@
       </Button>
    </bottom>
    <center>
-      <ImageView fx:id="currentFrame" fitHeight="535.0" fitWidth="650.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+      <ImageView fx:id="currentFrame" fitHeight="485.0" fitWidth="650.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
    </center>
+   <top>
+      <Button fx:id="record_start_btn" mnemonicParsing="false" onAction="#startRecording" prefHeight="39.0" prefWidth="115.0" text="Start Recording" BorderPane.alignment="CENTER_RIGHT">
+		  <BorderPane.margin>
+			  <Insets top="15.0" right="15.0" />
+		  </BorderPane.margin>
+	  </Button>
+   </top>   
 </BorderPane>
