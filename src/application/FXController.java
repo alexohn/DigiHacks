@@ -10,6 +10,8 @@ import java.util.concurrent.TimeUnit;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.core.MatOfPoint;
+import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.videoio.VideoCapture;
@@ -123,7 +125,26 @@ public class FXController {
 		// init
 		List<MatOfPoint> contours = new ArrayList<>();
 		Imgproc.cvtColor(frame, frame, Imgproc.COLOR_BGR2GRAY);
-		Imgproc.Canny(frame, frame, (double) 0, (double) 250);
+		Imgproc.Canny(frame, frame, (double) 64, (double) 150);
+
+		// approximate contours to polygons
+		Imgproc.findContours(frame, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_NONE);
+		// iterate through each contour
+		double largestArea = 0;
+		int largestCounterindex = 0;
+		Rect boundingRect = null;
+		MatOfPoint largestContour = null;
+		for (int i = 0; i < contours.size(); i++) {
+			double area = Imgproc.contourArea(contours.get(i));
+			if (area > largestArea) {
+				largestArea = area;
+				largestCounterindex = i;
+				largestContour = contours.get(i);
+				boundingRect = Imgproc.boundingRect(contours.get(i));
+			}
+		}
+		Imgproc.drawContours(frame, contours, largestCounterindex, new Scalar(173, 23, 32), 25);
+		System.out.println(largestContour.size());
 		return frame;
 	}
 
