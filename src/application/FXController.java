@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.core.MatOfPoint;
+import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
@@ -140,21 +141,51 @@ public class FXController {
 		// approximate contours to polygons
 		Imgproc.findContours(frame, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_NONE);
 		// iterate through each contour
-		double largestArea = 0;
-		int largestCounterindex = 0;
-		Rect boundingRect = null;
-		MatOfPoint largestContour = null;
+		MatOfPoint2f approxCurve = new MatOfPoint2f();
 		for (int i = 0; i < contours.size(); i++) {
-			double area = Imgproc.contourArea(contours.get(i));
-			if (area > largestArea) {
-				largestArea = area;
-				largestCounterindex = i;
-				largestContour = contours.get(i);
-				boundingRect = Imgproc.boundingRect(contours.get(i));
+			// Convert contours from MatOfPoint to MatOfPoint2f
+			MatOfPoint2f contour2f = new MatOfPoint2f(contours.get(i).toArray());
+			double approxDistance = Imgproc.arcLength(contour2f, true) * 0.02;
+			if (approxDistance > 5) {
+				// Find Polygons
+				Imgproc.approxPolyDP(contour2f, approxCurve, approxDistance, true);
+
+				// Convert back to MatOfPoint
+				MatOfPoint points = new MatOfPoint(approxCurve.toArray());
+
+				// Rectangle Checks - Points, area, convexity
+				if (points.total() == 4 && Math.abs(Imgproc.contourArea(points)) > 1000
+						&& Imgproc.isContourConvex(points)) {
+					double cos = 0;
+					double mcos = 0;
+
+					for (int sc = 2; sc < 5; sc++) {
+
+						// TODO Figure a way to check angle
+						if (cos > mcos) {
+							mcos = cos;
+						}
+					}
+					if (mcos < 0.3) {
+
+						// Get bounding rect of contour
+						Rect rect = Imgproc.boundingRect(points);
+
+						if (Math.abs(rect.height - rect.width) < 100) {
+							// draw enclosing rectangle
+							// TODO Change back to picori
+							Imgproc.rectangle(frame, rect.tl(), rect.br(), new Scalar(255, 0, 0), 1, 8, 0);
+
+						}
+
+					}
+				}
+
 			}
 		}
-		Imgproc.drawContours(frame, contours, largestCounterindex, new Scalar(173, 23, 32), 25);
-		System.out.println(largestContour.size());
+		// Imgproc.drawContours(frame, contours, largestCounterindex, new
+		// Scalar(173, 23, 32), 25);
+		// System.out.println(largestContour.size());
 		return frame;
 	}
 
