@@ -1,14 +1,16 @@
 package application;
 
 import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
+import org.opencv.core.MatOfPoint;
 import org.opencv.imgcodecs.Imgcodecs;
-import org.opencv.imgproc.Imgproc;
 import org.opencv.videoio.VideoCapture;
 
 import javafx.event.ActionEvent;
@@ -98,7 +100,7 @@ public class FXController {
 				// if the frame is not empty, process it
 				if (!frame.empty()) {
 					// convert the image to gray scale
-					Imgproc.cvtColor(frame, frame, Imgproc.COLOR_BGR2GRAY);
+					// Imgproc.cvtColor(frame, frame, Imgproc.COLOR_BGR2GRAY);
 					// convert the Mat object (OpenCV) to Image (JavaFX)
 
 					frame = ProcessImage(frame);
@@ -117,6 +119,9 @@ public class FXController {
 	private Mat ProcessImage(Mat frame) {
 		// this is where the magic stuff happens
 		// all the 3d projections and detections happen in this function
+		// init
+		List<MatOfPoint> contours = new ArrayList<>();
+
 		return frame;
 	}
 
