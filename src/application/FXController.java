@@ -11,6 +11,7 @@ import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.core.MatOfPoint;
 import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
 import org.opencv.videoio.VideoCapture;
 
 import javafx.event.ActionEvent;
@@ -121,7 +122,8 @@ public class FXController {
 		// all the 3d projections and detections happen in this function
 		// init
 		List<MatOfPoint> contours = new ArrayList<>();
-
+		Imgproc.cvtColor(frame, frame, Imgproc.COLOR_BGR2GRAY);
+		Imgproc.Canny(frame, frame, (double) 0, (double) 50);
 		return frame;
 	}
 
