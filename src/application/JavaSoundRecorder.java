@@ -16,7 +16,8 @@ public class JavaSoundRecorder {
     static final long RECORD_TIME = 10000;  // (10s)
  
     // path of the wav file
-    File wavFile = new File("/Users/dhruvlal/Desktop/test.flac");
+    String wavFilePath = "/Users/Alan/Desktop/what.flac";
+    File wavFile = new File(wavFilePath);
  
     // format of audio file
     AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
@@ -78,5 +79,12 @@ public class JavaSoundRecorder {
         line.stop();
         line.close();
         System.out.println("Finished");
+        try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        toTextHandler.sendPOST(wavFilePath);
     }
  }

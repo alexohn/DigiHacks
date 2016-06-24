@@ -37,6 +37,5 @@ public class Main extends Application {
 		// load the native OpenCV library
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		launch(args);
-		toTextHandler.sendPOST();//should move to somewhere when we have the audio file generated.
 	}
 }

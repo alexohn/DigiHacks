@@ -11,9 +11,9 @@ import java.net.URL;
 
 public class toTextHandler{
 	@SuppressWarnings("deprecation")
-	public static void sendPOST(){
+	public static void sendPOST(String FilePath){
 		String URLPath = "https://stream.watsonplatform.net/speech-to-text/api/v1/recognize?continuous=true";
-		String FilePath = "/Users/Alan/Desktop/MakeMoveDestroy-flac.flac";
+//		String FilePath = "/Users/Alan/Desktop/MakeMoveDestroy-flac.flac";
         HttpURLConnection conn = null;
         DataInputStream inStream = null;
 
