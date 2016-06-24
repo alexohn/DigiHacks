@@ -37,9 +37,9 @@ public class FXController {
 	private VideoCapture capture = new VideoCapture();
 	// a flag to change the button behavior
 	private boolean cameraActive = false;
+	private int flag = 0;
 	
 	private final JavaSoundRecorder recorder = new JavaSoundRecorder();
-
 
 	@FXML
 	protected void startCamera(ActionEvent event) {
@@ -92,6 +92,22 @@ public class FXController {
 		}
 	}
 
+	private void setFlag(String message) {
+		switch(message) {
+		case "Triangle":
+			flag = 3;
+		case "Square":
+			flag = 4;
+		case "Pentagon":
+			flag = 5;
+		case "Hexagon":
+			flag = 6;		
+		default:
+			flag = 0;
+		}
+		
+	}
+	
 	/**
 	 * Get a frame from the opened video stream (if any)
 	 * 
@@ -154,7 +170,7 @@ public class FXController {
 				MatOfPoint points = new MatOfPoint(approxCurve.toArray());
 
 				// Rectangle Checks - Points, area, convexity
-				if (points.total() == 5 && Math.abs(Imgproc.contourArea(points)) > 1000
+				if (points.total() == flag && Math.abs(Imgproc.contourArea(points)) > 1000
 						&& Imgproc.isContourConvex(points)) {
 					double cos = 0;
 					double mcos = 0;
