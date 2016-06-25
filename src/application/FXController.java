@@ -38,6 +38,7 @@ public class FXController {
 	// a flag to change the button behavior
 	private boolean cameraActive = false;
 	protected int flag = 0;
+	protected Scalar colour;
 	private final JavaSoundRecorder recorder = new JavaSoundRecorder();
 
 	@FXML
@@ -92,7 +93,7 @@ public class FXController {
 	}
 
 	private void setFlag(String message) {
-		switch(message) {
+		switch (message) {
 		case "Triangle":
 			flag = 3;
 		case "Square":
@@ -100,37 +101,44 @@ public class FXController {
 		case "Pentagon":
 			flag = 5;
 		case "Hexagon":
-			flag = 6;		
+			flag = 6;
 		default:
 			flag = 0;
 		}
-		
+
 	}
-	
+
 	public void parseReturnedJSONString(String json) {
 		String shape = "";
-		if (json.contains("TRIANGLE") ) {
+		if (json.contains("TRIANGLE")) {
 			shape = "Triangle";
 			flag = 3;
-		}
-		else if (json.contains("SQUARE")) {
+		} else if (json.contains("SQUARE")) {
 			shape = "Square";
 			flag = 4;
-		}
-		else if (json.contains("PENTAGON")) {
+		} else if (json.contains("PENTAGON")) {
 			shape = "Pentagon";
 			flag = 5;
-		}
-		else if (json.contains("HEXAGON")) {
+		} else if (json.contains("HEXAGON")) {
 			shape = "Hexagon";
 			flag = 6;
-		}
-		else {
+		} else {
 			flag = 0;
 		}
 		System.out.println("flag is " + flag);
+
+		if (json.contains("BLUE")) {
+			colour = new Scalar(255, 0, 0, 133);
+		} else if (json.contains("GREEN")) {
+			colour = new Scalar(0, 255, 0, 133);
+		} else if (json.contains("RED") || json.contains("RIDE")) {
+			colour = new Scalar(0, 0, 255, 133);
+		} else {
+			colour = new Scalar(255, 0, 255, 133);
+		}
+
 	}
-	
+
 	/**
 	 * Get a frame from the opened video stream (if any)
 	 * 
@@ -216,7 +224,7 @@ public class FXController {
 							// TODO Change back to picori
 							// Imgproc.rectangle(frame, rect.tl(), rect.br(),
 							// new Scalar(255, 0, 0), 1, 8, 0);
-							Imgproc.drawContours(frame, contours, i, new Scalar(255, 0, 255, 133), -1);
+							Imgproc.drawContours(frame, contours, i, colour, -1);
 
 						}
 
